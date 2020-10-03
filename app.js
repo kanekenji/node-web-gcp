@@ -23,11 +23,40 @@ const bucket = storage.bucket(bucketName);
 
 const datastore = new Datastore();
 
-// 一覧表示を作るまでの仮実装
-app.get('/', function(req, res) {
-    res.send('Hello');
-});
+// 投書一覧の表示
+app.get('/', async function(req, res) {
+    try {
+        // Datastoreから投書一覧を取得
+        const query = datastore.createQuery('letter');
+        // 投稿日時で並び替え（新しいもの順）
+        query.order('time', { descending: true });
 
+        // 取得したデータをテンプレートで表示する形式に変換
+        const response = await query.run();
+        const entities = response[0];
+        const letters = entities.map(function(entity) {
+            return {
+                id: entity[datastore.KEY].path[1],
+                time: moment(entity.time),
+                name: entity.name,
+                mainCategory: entity.mainCategory,
+                excerpt: entity.excerpt
+            };
+        });
+        const vars = {
+            letters: letters
+        };
+        res.render('index', vars);
+    } catch (err) {
+        console.log(err);
+
+        // ブラウザがエラーにならないように空状態で表示する
+        const vars = {
+            letters: []
+        };
+        res.render('index', vars);
+    }
+});
 
 // 投稿ページの表示
 app.get('/post', function(req, res) {

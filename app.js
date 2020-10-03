@@ -58,9 +58,43 @@ app.get('/', async function(req, res) {
     }
 });
 
-// 投稿ページの表示
-app.get('/post', function(req, res) {
-    res.render('post');
+// 個別の投書の表示
+app.get('/letter/:id', async function(req, res) {
+    // 表示する投稿のIDを取得（IDはURLから取得する）
+    const id = req.params.id;
+
+    try {
+        // 2つのサービスを呼び出すのでletで定義
+        let response;
+
+        // Datastoreから投書情報を取得
+        const key = datastore.key(['letter', id]);
+        response = await datastore.get(key);
+        const entity = response[0];
+
+        // GCSバケットに保存されている投書本体を取得
+        const file = bucket.file(id + '.txt');
+        response = await file.download();
+        const content = response[0];
+
+        // 取得したデータをテンプレートで表示する形式に変換
+        const letter = {
+            time: moment(entity.time),
+            name: entity.name,
+            mail: entity.mail,
+            categories: entity.categories,
+            content: content.toString()
+        }
+
+        const vars = {
+            letter: letter
+        };
+        res.render('show', vars);
+    } catch (err) {
+        console.log(err);
+
+        res.redirect('/');
+    }
 });
 // 投稿の処理
 app.post('/post', async function(req, res) {

@@ -1,6 +1,9 @@
-// 秘密鍵ファイルを指定
-process.env.GOOGLE_APPLICATION_CREDENTIALS = 
-'./win-prote-09d8b7a59f1a.json';
+// 環境変数GAE_APPLICATIONの有無でApp Engineで動作しているかを判断
+// ローカル環境の場合はサービスアカウントの秘密鍵を設定する
+if (!process.env.GAE_APPLICATION) {
+    process.env.GOOGLE_APPLICATION_CREDENTIALS = 
+    './win-letter-220906-03d58107d53e.json';
+}
 
 // バケット名を指定
 const bucketName = 'win-prote';

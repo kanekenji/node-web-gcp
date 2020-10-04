@@ -3,11 +3,11 @@
 // gcloud app deploy,gcloud app browse, gcloud auth revoke
 if (!process.env.GAE_APPLICATION) {
     process.env.GOOGLE_APPLICATION_CREDENTIALS = 
-    './win-prote-09d8b7a59f1a.json';
+    '*************';
 }
 
 // バケット名を指定
-const bucketName = 'win-prote';
+const bucketName = '*******';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -18,7 +18,7 @@ const {Datastore} = require('@google-cloud/datastore');
 const {Storage} = require('@google-cloud/storage');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.::({ extended: false }));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 

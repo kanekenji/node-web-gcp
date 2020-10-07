@@ -1,0 +1,29 @@
+{
+  "name": "node-web-gcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanekenji/node-web-gcp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanekenji/node-web-gcp/issues"
+  },
+  "homepage": "https://github.com/kanekenji/node-web-gcp#readme",
+  "dependencies": {
+    "@google-cloud/datastore": "^3.1.1",
+    "@google-cloud/storage": "^2.4.2",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "moment": "^2.29.0",
+    "uuid": "^8.3.0"
+  }
+}

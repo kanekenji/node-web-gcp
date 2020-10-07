@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>投稿一覧</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">投書システム</a>
+    </nav>
+    <div class="container">
+      <div style="margin: .5rem 0">
+        <a href="/post" class="btn btn-primary">新規投稿</a>
+      </div>
+
+      <dl>
+        <% letters.forEach(function(letter) { %>
+          <dt>
+            <a href="/letter/<%= letter.id %>">
+              <% if (process.env.GAE_APPLICATION) { %>
+                <%# 取得された日時はタイムゾーンが欠落している？ので強制的に9時間足す %>
+                <%= letter.time.add(9, 'hours').format('YYYY-MM-DD HH:mm') %>
+              <% } else { %>
+                <%= letter.time.format('YYYY-MM-DD HH:mm') %>
+              <% } %>
+              &nbsp;
+              <%= letter.name %>
+              &nbsp;
+              <%= letter.mainCategory %>
+            </a>
+          </dt>
+          <%
+          // <をエスケープ
+          const excerpt = letter.excerpt.replace(/</g, '&lt;');
+          %>
+          <dd>
+            <%= excerpt %>
+          </dd>
+        <% }); %>
+      </dl>
+    </div>
+  </body>
+</html>
